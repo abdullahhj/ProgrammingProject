@@ -17,5 +17,9 @@ typedef struct
     double frequency;
 
 }WaveformSample ;
+
+double getRmsValue(WaveformSample * wf , int samples_number , char p);
+double getVoltagePeakToPeakValue(WaveformSample * wf , int samples_number , char p);
+
 #endif //WAVEFORM_H
 
