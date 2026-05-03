@@ -37,5 +37,11 @@ int main(int argc , char *argv[])
     printf("clippingNumberA is %d\n clippingNumberB is %d \n clippingNumberC is %d \n" ,
         clippingNumberA ,clippingNumberB,clippingNumberC);
 
+    generateResultFile("results.txt",rms_phaseA,rms_phaseB,rms_phaseC,
+        peakTopeakA,peakTopeakB,peakTopeakC,
+        dcOffsetA,dcOffsetB,dcOffsetC,
+        clippingNumberA,clippingNumberB,clippingNumberC);
+    free(wf);
+    printf("Task executed successfully");
     return 0;
 }
