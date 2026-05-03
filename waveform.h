@@ -20,6 +20,7 @@ typedef struct
 
 double getRmsValue(WaveformSample * wf , int samples_number , char p);
 double getVoltagePeakToPeakValue(WaveformSample * wf , int samples_number , char p);
-
+double getDcOffsetValue(WaveformSample * wf , int samples_number , char p);
+int    getClippingsValue(WaveformSample * wf , int samples_number , char p);
 #endif //WAVEFORM_H
 

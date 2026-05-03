@@ -5,6 +5,7 @@
 #include "waveform.h"
 
 #include <math.h>
+#include <stdio.h>
 
 double getRmsValue(WaveformSample * wf , int samples_number , char p)
 {
@@ -39,7 +40,7 @@ double getVoltagePeakToPeakValue(WaveformSample * wf , int samples_number , char
          if (phaseVolt < minimum_value)
             minimum_value=phaseVolt;
       }
-      if (p=='B')
+      else if (p=='B')
       {
          phaseVolt=(wf+i)->phase_B;
          if (phaseVolt > maximum_value)
@@ -47,7 +48,7 @@ double getVoltagePeakToPeakValue(WaveformSample * wf , int samples_number , char
          if (phaseVolt < minimum_value)
             minimum_value=phaseVolt;
       }
-      if (p=='C')
+      else if (p=='C')
       {
          phaseVolt=(wf+i)->phase_C;
          if (phaseVolt > maximum_value)
@@ -57,4 +58,46 @@ double getVoltagePeakToPeakValue(WaveformSample * wf , int samples_number , char
       }
    }
    return maximum_value-minimum_value;//VPP
+}
+
+double getDcOffsetValue(WaveformSample * wf , int samples_number , char p)
+{
+   double phaseVolt=0.0;
+   double totalVoltage=0.0;
+   for (int i=0 ; i < samples_number ; i++)
+   {
+      if (p=='A')
+         phaseVolt=(wf+i)->phase_A;
+      else if (p=='B')
+         phaseVolt=(wf+i)->phase_B;
+      else if (p=='C')
+         phaseVolt=(wf+i)->phase_C;
+      totalVoltage=totalVoltage+phaseVolt;
+   }
+   double mean = (totalVoltage/samples_number);
+   return mean;
+
+}
+int getClippingsValue(WaveformSample * wf , int samples_number , char p)
+{
+   int clippingsValue=0;
+   double phaseVolt=0.0;
+   double clipping_limit=324.9;
+   for (int i=0 ; i < samples_number ; i++)
+   {
+      if (p=='A')
+         phaseVolt=(wf+i)->phase_A;
+      else if (p=='B')
+         phaseVolt=(wf+i)->phase_B;
+      else if (p=='C')
+         phaseVolt=(wf+i)->phase_C;
+
+      if (fabs(phaseVolt) >=clipping_limit)
+      {
+         clippingsValue++;
+         printf("Clipping found at sample : %d -- Phase %c \n" ,i,p);
+
+      }
+   }
+   return clippingsValue;
 }
